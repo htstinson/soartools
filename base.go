@@ -26,6 +26,18 @@ var googleOauthConfig = &oauth2.Config{
 
 const oauthGoogleUrlAPI = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="
 
+func New() http.Handler {
+	mux := http.NewServeMux()
+	// Root
+	mux.Handle("/", http.FileServer(http.Dir("templates/")))
+
+	// OauthGoogle
+	mux.HandleFunc("/auth/google/login", oauthGoogleLogin)
+	mux.HandleFunc("/auth/google/callback", oauthGoogleCallback)
+
+	return mux
+}
+
 func oauthGoogleLogin(w http.ResponseWriter, r *http.Request) {
 
 	// Create oauthState cookie
