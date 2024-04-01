@@ -28,8 +28,6 @@ const oauthGoogleUrlAPI = "https://www.googleapis.com/oauth2/v2/userinfo?access_
 
 func New() http.Handler {
 	mux := http.NewServeMux()
-	// Root
-	mux.Handle("/", http.FileServer(http.Dir("templates/")))
 
 	// OauthGoogle
 	mux.HandleFunc("/auth/google/login", oauthGoogleLogin)
