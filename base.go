@@ -17,7 +17,7 @@ import (
 
 // Scopes: OAuth 2.0 scopes provide a way to limit the amount of access that is granted to an access token.
 var GoogleOauthConfig = &oauth2.Config{
-	RedirectURL:  "http://localhost/auth/google/callback",
+	RedirectURL:  "https://soar.tools/auth/google/callback",
 	ClientID:     os.Getenv("GOOGLE_OAUTH_CLIENT_ID"),
 	ClientSecret: os.Getenv("GOOGLE_OAUTH_CLIENT_SECRET"),
 	Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
@@ -30,12 +30,15 @@ func OauthGoogleLogin(w http.ResponseWriter, r *http.Request) {
 
 	// Create oauthState cookie
 	oauthState := GenerateStateOauthCookie(w)
+	fmt.Println("A", oauthState)
 
 	/*
 		AuthCodeURL receive state that is a token to protect the user from CSRF attacks. You must always provide a non-empty string and
 		validate that it matches the the state query parameter on your redirect callback.
 	*/
 	u := GoogleOauthConfig.AuthCodeURL(oauthState)
+	fmt.Println("B", u)
+
 	http.Redirect(w, r, u, http.StatusTemporaryRedirect)
 }
 
