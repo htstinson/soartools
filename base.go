@@ -32,12 +32,16 @@ func OauthGoogleLogin(w http.ResponseWriter, r *http.Request) {
 	oauthState := GenerateStateOauthCookie(w)
 	fmt.Println("A", oauthState)
 
+	fmt.Println("B", GoogleOauthConfig.ClientID)
+
+	fmt.Println("C", GoogleOauthConfig.ClientSecret)
+
 	/*
 		AuthCodeURL receive state that is a token to protect the user from CSRF attacks. You must always provide a non-empty string and
 		validate that it matches the the state query parameter on your redirect callback.
 	*/
 	u := GoogleOauthConfig.AuthCodeURL(oauthState)
-	fmt.Println("B", u)
+	fmt.Println("D", u)
 
 	http.Redirect(w, r, u, http.StatusTemporaryRedirect)
 }
