@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io/ioutil"
+
 	"log"
 	"net/http"
 	"os"
@@ -27,22 +28,13 @@ var GoogleOauthConfig = &oauth2.Config{
 const OauthGoogleUrlAPI = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="
 
 func OauthGoogleLogin(w http.ResponseWriter, r *http.Request) {
-
 	// Create oauthState cookie
 	oauthState := GenerateStateOauthCookie(w)
-	fmt.Println("A", oauthState)
-
-	fmt.Println("B", GoogleOauthConfig.ClientID)
-
-	fmt.Println("C", GoogleOauthConfig.ClientSecret)
-
 	/*
 		AuthCodeURL receive state that is a token to protect the user from CSRF attacks. You must always provide a non-empty string and
 		validate that it matches the the state query parameter on your redirect callback.
 	*/
 	u := GoogleOauthConfig.AuthCodeURL(oauthState)
-	fmt.Println("D", u)
-
 	http.Redirect(w, r, u, http.StatusTemporaryRedirect)
 }
 
