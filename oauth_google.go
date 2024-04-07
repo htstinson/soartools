@@ -43,8 +43,6 @@ func OauthGoogleCallback(w http.ResponseWriter, r *http.Request) {
 	// Read oauthState from Cookie
 	oauthState, _ := r.Cookie("oauthstate")
 
-	fmt.Println(oauthState)
-
 	if r.FormValue("state") != oauthState.Value {
 		log.Println("invalid oauth google state")
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
@@ -72,6 +70,7 @@ func OauthGoogleCallback(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(u.Email)
 	fmt.Println(u.Verified_email)
 	fmt.Println(u.Picture)
+	fmt.Println(oauthState)
 
 }
 
