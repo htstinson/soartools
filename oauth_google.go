@@ -55,9 +55,8 @@ func OauthGoogleCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
-
 	sessionID := AddCookie(w, "session", "soar.tools")
+	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 
 	if err := os.WriteFile(sessionID, data, 0666); err != nil {
 		log.Fatal(err)
