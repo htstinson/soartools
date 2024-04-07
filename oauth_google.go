@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 
@@ -62,15 +61,9 @@ func OauthGoogleCallback(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintf(w, "UserInfo: %s\n", data)
 	fmt.Fprint(w, "success")
 
-	u := &User{}
-
-	json.Unmarshal(data, u)
-
-	fmt.Println(u.ID)
-	fmt.Println(u.Email)
-	fmt.Println(u.Verified_email)
-	fmt.Println(u.Picture)
-	fmt.Println(oauthState)
+	if err := os.WriteFile("file.txt", data, 0666); err != nil {
+		log.Fatal(err)
+	}
 
 }
 
