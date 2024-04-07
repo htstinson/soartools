@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 
@@ -58,7 +59,25 @@ func OauthGoogleCallback(w http.ResponseWriter, r *http.Request) {
 	// GetOrCreate User in your db.
 	// Redirect or response with a token.
 	// More code .....
-	fmt.Fprintf(w, "UserInfo: %s\n", data)
+	//fmt.Fprintf(w, "UserInfo: %s\n", data)
+	fmt.Fprint(w, "success")
+
+	u := &User{}
+
+	json.Unmarshal(data, u)
+
+	fmt.Println(u.ID)
+	fmt.Println(u.Email)
+	fmt.Println(u.Verified_email)
+	fmt.Println(u.Picture)
+
+}
+
+type User struct {
+	ID             string `json:"id"`
+	Email          string `json:"email"`
+	Verified_email bool   `json:"verified_email"`
+	Picture        string `json:"picture"`
 }
 
 func GenerateStateOauthCookie(w http.ResponseWriter) string {
