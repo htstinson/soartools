@@ -15,6 +15,7 @@ func AddCookie(w http.ResponseWriter, name string, domain string) string {
 	state := base64.URLEncoding.EncodeToString(b)
 	cookie := http.Cookie{Name: name, Value: state, Expires: expiration, Domain: domain}
 	http.SetCookie(w, &cookie)
+	w.WriteHeader(http.StatusOK)
 
 	return state
 }
