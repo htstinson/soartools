@@ -55,23 +55,14 @@ func OauthGoogleCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// GetOrCreate User in your db.
-	// Redirect or response with a token.
-	// More code .....
-	//fmt.Fprintf(w, "UserInfo: %s\n", data)
-	fmt.Fprint(w, "success")
+	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 
-	if err := os.WriteFile("file.txt", data, 0666); err != nil {
+	sessionID := AddCookie(w, "session", "soar.tools")
+
+	if err := os.WriteFile(sessionID, data, 0666); err != nil {
 		log.Fatal(err)
 	}
 
-}
-
-type User struct {
-	ID             string `json:"id"`
-	Email          string `json:"email"`
-	Verified_email bool   `json:"verified_email"`
-	Picture        string `json:"picture"`
 }
 
 func GenerateStateOauthCookie(w http.ResponseWriter) string {
